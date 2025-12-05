@@ -21,34 +21,33 @@
     </properties>
 
     <dependencies>
-    <!-- Spring Web REST API -->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
+        <!-- Spring Web REST API -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
-    <!-- AWS Serverless Java Container for Spring Boot 3 -->
-    <dependency>
-        <groupId>com.amazonaws.serverless</groupId>
-        <artifactId>aws-serverless-java-container-springboot3</artifactId>
-        <version>2.1.5</version>
-    </dependency>
+        <!-- AWS Serverless Java Container for Spring Boot 3 -->
+<dependency>
+    <groupId>com.amazonaws.serverless</groupId>
+    <artifactId>aws-serverless-java-container-springboot3</artifactId>
+    <version>2.0.1</version> <!-- or 2.1.4 / 2.0.x, any 2.x is fine -->
+</dependency>
 
-    <!-- Core library (contains ContainerInitializationException etc.) -->
-    <dependency>
-        <groupId>com.amazonaws.serverless</groupId>
-        <artifactId>aws-serverless-java-container-core</artifactId>
-        <version>2.1.5</version>
-    </dependency>
-
-    <!-- Tests -->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-test</artifactId>
-        <scope>test</scope>
-    </dependency>
-</dependencies>
-
+        <!-- Optional: Lombok 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+				-->
+        <!-- Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
