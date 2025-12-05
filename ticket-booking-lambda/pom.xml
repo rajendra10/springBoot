@@ -57,14 +57,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
             <version>3.2.5</version>
-            <executions>
+           <!-- <executions>
                 <execution>
                     <goals>
                         <goal>repackage</goal>
                     </goals>
                 </execution>
             </executions>
-        </plugin>
+        </plugin>-->
 
         <!-- Shade plugin (ONLY for Lambda) 
         <plugin>
@@ -81,8 +81,8 @@
                         <createDependencyReducedPom>false</createDependencyReducedPom>
                     </configuration>
                 </execution>
-            </executions>
-        </plugin>-->
+            </executions>-->
+        </plugin>
 
     </plugins>
 </build>
