@@ -2,7 +2,7 @@ name: Build and Deploy Ticket Booking Lambda
 
 on:
   push:
-    branches: [ master ]   # your default branch is 'master'
+    branches: [ master ]   # your default branch
 
 jobs:
   build-and-deploy:
@@ -21,7 +21,7 @@ jobs:
       # Build the Lambda project (inside ticket-booking-lambda folder)
       - name: Build Lambda project with Maven
         working-directory: ticket-booking-lambda
-        run: ./mvnw -B clean package -DskipTests
+        run: mvn -B clean package -DskipTests
 
       # Configure AWS credentials from GitHub Secrets
       - name: Configure AWS credentials
@@ -40,4 +40,3 @@ jobs:
           aws lambda update-function-code \
             --function-name ticket-booking-lambda \
             --zip-file fileb://$JAR_FILE
-
