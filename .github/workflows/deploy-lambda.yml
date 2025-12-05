@@ -35,7 +35,7 @@ jobs:
       - name: Deploy JAR to AWS Lambda
         working-directory: ticket-booking-lambda
         run: |
-          JAR_FILE=$(ls target/*.jar | head -n 1)
+          JAR_FILE=$(ls target/ticket-booking-lambda-0.0.1-SNAPSHOT.jar | head -n 1)
           echo "Deploying $JAR_FILE to Lambda..."
           aws lambda update-function-code \
             --function-name ticket-booking-lambda \
