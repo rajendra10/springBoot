@@ -50,9 +50,24 @@
     </dependencies>
 
     <build>
-        <plugins>
-            <!-- Spring Boot plugin (for local run) -->
-            <plugin>
+    <plugins>
+
+        <!-- Create executable Spring Boot JAR -->
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>3.2.5</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+
+        <!-- Shade plugin (ONLY for Lambda) -->
+        <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-shade-plugin</artifactId>
             <version>3.5.0</version>
@@ -68,6 +83,8 @@
                 </execution>
             </executions>
         </plugin>
-        </plugins>
-    </build>
+
+    </plugins>
+</build>
+
 </project>
