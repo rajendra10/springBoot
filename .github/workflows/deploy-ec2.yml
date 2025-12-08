@@ -29,7 +29,7 @@ jobs:
             mvn clean package -DskipTests
 
             echo "Stopping old app (if running)..."
-            pkill -f 'ticket-booking-lambda-0.0.1-SNAPSHOT.jar' || false || echo "No existing process, continuing..."
+            pkill -f 'ticket-booking-lambda-0.0.1-SNAPSHOT.jar' || false
 
             echo "Starting new app..."
             nohup java -jar target/ticket-booking-lambda-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
