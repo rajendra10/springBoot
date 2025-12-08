@@ -28,7 +28,7 @@ jobs:
             cd ticket-booking-lambda
             mvn clean package -DskipTests
 
-            echo "Stopping old app (if running)..."
+            echo "Stopping old app (if running)......."
 
             echo "Starting new app..."
             nohup java -jar target/ticket-booking-lambda-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
