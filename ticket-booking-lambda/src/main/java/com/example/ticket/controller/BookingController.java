@@ -24,4 +24,8 @@ public class BookingController {
     public List<Booking> list() {
         return service.findAll();
     }
+    @GetMapping
+    public String helthCheck() {
+        return "TestHealth";
+    }
 }
