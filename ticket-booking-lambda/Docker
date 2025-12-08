@@ -1,0 +1,25 @@
+# ---------- 1st stage: build jar ----------
+FROM maven:3.9-eclipse-temurin-17 AS build
+
+WORKDIR /build
+
+# Copy pom and source
+COPY pom.xml .
+COPY src ./src
+
+# Build the application
+RUN mvn clean package -DskipTests
+
+# ---------- 2nd stage: runtime image ----------
+FROM eclipse-temurin:17-jre-alpine
+
+WORKDIR /app
+
+# Copy built jar from the build stage
+COPY --from=build /build/target/ticket-booking-lambda-0.0.1-SNAPSHOT.jar ticketbookingapp.jar
+
+# The app listens on 8080
+EXPOSE 8080
+
+# Start the Spring Boot app
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
