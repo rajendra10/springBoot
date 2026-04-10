@@ -17,38 +17,51 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    #  Checkout code
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # Build JAR (IMPORTANT)
+    #  Setup Java (needed for Maven)
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    #  Build Spring Boot JAR
     - name: Build Spring Boot JAR
       run: mvn clean package -DskipTests
       working-directory: azure-aks-practice-cicd
 
-    # (Optional debug - can remove later)
-    - name: List files
-      run: ls -R
-
+    #  Login to Azure
     - name: Login to Azure
       uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    #Fixed Docker build
-    - name: Build and Push Image to ACR
+    #  Login to ACR
+    - name: Login to ACR
+      run: az acr login --name $ACR_NAME
+
+    #  Build Docker Image
+    - name: Build Docker Image
       run: |
-        az acr build \
-          --registry $ACR_NAME \
-          --image $IMAGE_NAME:${{ github.sha }} \
-          azure-aks-practice-cicd
-          
+        docker build -t $ACR_NAME.azurecr.io/$IMAGE_NAME:${{ github.sha }} .
+      working-directory: azure-aks-practice-cicd
+
+    #  Push Image to ACR
+    - name: Push Image to ACR
+      run: |
+        docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:${{ github.sha }}
+
+    #  Get AKS credentials
     - name: Get AKS credentials
       run: |
         az aks get-credentials \
           --resource-group $RESOURCE_GROUP \
           --name $CLUSTER_NAME
 
-    # Deploy update
+    #  Deploy to AKS
     - name: Deploy to AKS
       run: |
         kubectl set image deployment/springboot-deployment \
