@@ -40,7 +40,6 @@ jobs:
         az acr build \
           --registry $ACR_NAME \
           --image $IMAGE_NAME:${{ github.sha }} \
-          --file Dockerfile \
           azure-aks-practice-cicd
           
     - name: Get AKS credentials
