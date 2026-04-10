@@ -23,6 +23,7 @@ jobs:
     # Build JAR (IMPORTANT)
     - name: Build Spring Boot JAR
       run: mvn clean package -DskipTests
+      working-directory: azure-aks-practice-cicd
 
     # (Optional debug - can remove later)
     - name: List files
@@ -40,8 +41,8 @@ jobs:
           --registry $ACR_NAME \
           --image $IMAGE_NAME:${{ github.sha }} \
           --file Dockerfile \
-          .
-
+          azure-aks-practice-cicd
+          
     - name: Get AKS credentials
       run: |
         az aks get-credentials \
