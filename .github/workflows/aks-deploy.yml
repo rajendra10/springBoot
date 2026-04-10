@@ -1,0 +1,43 @@
+name: Build and Deploy to AKS
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  ACR_NAME: acrraj
+  IMAGE_NAME: springboot-app
+  RESOURCE_GROUP: springboot-aks-rg
+  CLUSTER_NAME: springboot-aks-cluster
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Build and Push Image to ACR
+      run: |
+        az acr build --registry $ACR_NAME \
+          --image $IMAGE_NAME:${{ github.sha }} .
+
+    - name: Get AKS credentials
+      run: |
+        az aks get-credentials \
+          --resource-group $RESOURCE_GROUP \
+          --name $CLUSTER_NAME
+
+    - name: Deploy to AKS
+      run: |
+        kubectl set image deployment/springboot-deployment \
+        springboot=$ACR_NAME.azurecr.io/$IMAGE_NAME:${{ github.sha }}
+
+        kubectl rollout status deployment/springboot-deployment
