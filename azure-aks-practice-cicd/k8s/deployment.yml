@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: springboot
-        image: acrraj.azurecr.io/springboot-app:v2
+        image: acrraj.azurecr.io/springboot-app:v3
         ports:
         - containerPort: 8080
