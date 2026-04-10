@@ -6,6 +6,7 @@ on:
       - master
 
 env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   ACR_NAME: acrraj
   IMAGE_NAME: springboot-app
   RESOURCE_GROUP: springboot-aks-rg
