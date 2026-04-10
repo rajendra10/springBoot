@@ -25,10 +25,13 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Build and Push Image to ACR
+     - name: Build and Push Image to ACR
       run: |
-        az acr build --registry $ACR_NAME \
-          --image $IMAGE_NAME:${{ github.sha }} .
+        az acr build \
+          --registry $ACR_NAME \
+          --image $IMAGE_NAME:${{ github.sha }} \
+          --file Dockerfile \
+          .
 
     - name: Get AKS credentials
       run: |
