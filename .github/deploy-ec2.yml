@@ -1,0 +1,38 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [ master ]   # change if your main branch is different
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: SSH into EC2 and deploy
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ 65.2.161.128 }}
+          username: ${{ ec2-user }}
+          key: ${{ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDe5VB4k2EpsajTWz29n72WgUVsfn2kSpnEnSjqogiiggBx0DfxdZaOdJ16NmdcD4s7AouYX+ztVug9G4eDknkUo3A4z6pu+u8BhVrLwH0RSkV+gQQW9fLc/1ZfJLs97FSJvpI0UZ7WMgXwsCo1O1+GZGdhO1xUMYB96W07GdXFbpFkrgq4dEEXqQq+6u9/6n7ABZwSjQUGObh0GAX/YmdAn+S3YdExYRUngKQZOwAuu+anPp5llPcO6dApbc3J5aUhsVhM44kbhysgJWsHXDY0rQHlg3yGFmaW4OVF0WcWDa6ywPkfi5tretEyfs0yZnXL4AWwxMAnV9wrwFxEjKMZC6h/QgMRfqP5k65G7IT59WOfH+VktFhNElNSoBhQZoNXf5TZ+vaiY9v/uQFCP1tRgMB4EqB1Fl5ugMhodB10CCjK33mVBFMhO4ZANRay+3hwHVjxlqp3bzob0zr63eAMzX76adxW97aN3cmzVN/I9RkyzkDyHgCbxB5XbNGQ0stDZ+3cKSMQXRcQO6wdJgy5oveByZvUZ+kw1qoqnu9cztiyiDFP7FBqB7gAh+R5N6YEJ4S5N0BYrmYHpkfx2EGXxDT4SCY0LsTy8pZxkkO9e91vxuLqX+F5bc34tyPO+77OJco1agAE0VUMTJGlU+lMJnGM241DjazW7ZaaMbCLaw== github-ci-ec2
+ }}
+          script: |
+            cd /home/ec2-user/springBoot
+
+            echo "Pulling latest code..."
+            git pull origin master
+
+            echo "Building project..."
+            cd ticket-booking-lambda
+            mvn clean package -DskipTests
+
+            echo "Stopping old app (if running)..."
+            pkill -f 'ticket-booking-lambda-0.0.1-SNAPSHOT.jar' || true
+
+            echo "Starting new app..."
+            nohup java -jar target/ticket-booking-lambda-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
+
+            echo "Deployment finished."

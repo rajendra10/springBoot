@@ -1,0 +1,37 @@
+spring:
+ application:
+  name: API-Gate-Way-Project
+  
+ cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+
+server:
+  port: 9090
+   
+euraka:
+    client:
+     service-url:
+      defaultZone: http://localhost:8761/euraka
+      
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - "*"      
+  info:
+    env:
+      enabled: true
+  endpoint:
+    gateway:
+      access: UNRESTRICTED   
+info:
+  app:
+   name: "gatway-API"
+   decription: "This is gatWay"
+   version: "1.0.0"

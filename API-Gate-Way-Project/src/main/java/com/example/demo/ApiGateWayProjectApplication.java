@@ -2,14 +2,13 @@ package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.config.server.EnableConfigServer;
 
 @SpringBootApplication
-@EnableConfigServer
-public class SpringBootConigServerApplication {
+public class ApiGateWayProjectApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootConigServerApplication.class, args);
+		System.out.println("GATE-WAY API");
+		SpringApplication.run(ApiGateWayProjectApplication.class, args);
 	}
 
 }
